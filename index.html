@@ -579,6 +579,261 @@
             50% { box-shadow: 0 0 50px var(--accent-glow), 0 0 80px rgba(56, 189, 248, 0.15); }
         }
 
+        /* ── Chatbot ── */
+        .chat-toggle {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 200;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: linear-gradient(135deg, var(--accent), #818cf8);
+            color: #0a0e17;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 30px var(--accent-glow);
+            transition: all 0.3s ease;
+        }
+
+        .chat-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 40px rgba(56, 189, 248, 0.5);
+        }
+
+        .chat-toggle svg {
+            width: 28px;
+            height: 28px;
+            transition: transform 0.3s;
+        }
+
+        .chat-toggle.open svg {
+            transform: rotate(90deg);
+        }
+
+        .chat-window {
+            position: fixed;
+            bottom: 5.5rem;
+            right: 1.5rem;
+            z-index: 199;
+            width: 370px;
+            max-height: 500px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.5), 0 0 40px rgba(56, 189, 248, 0.08);
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            pointer-events: none;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .chat-window.open {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: all;
+        }
+
+        .chat-header {
+            padding: 1rem 1.2rem;
+            background: rgba(56, 189, 248, 0.08);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .chat-header-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #22c55e;
+            box-shadow: 0 0 8px rgba(34, 197, 94, 0.5);
+            animation: dotPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes dotPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .chat-header-text {
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .chat-header-sub {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            max-height: 340px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-dim) transparent;
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: var(--accent-dim);
+            border-radius: 4px;
+        }
+
+        .chat-msg {
+            max-width: 85%;
+            padding: 0.7rem 1rem;
+            border-radius: 16px;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            animation: msgIn 0.3s ease;
+        }
+
+        @keyframes msgIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chat-msg.bot {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-msg.user {
+            background: linear-gradient(135deg, var(--accent), #818cf8);
+            color: #0a0e17;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+            font-weight: 500;
+        }
+
+        .chat-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            padding: 0 1rem 0.5rem;
+        }
+
+        .chat-suggestion {
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            background: var(--accent-dim);
+            color: var(--accent);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .chat-suggestion:hover {
+            background: rgba(56, 189, 248, 0.25);
+            border-color: var(--accent);
+        }
+
+        .chat-input-row {
+            display: flex;
+            padding: 0.75rem;
+            gap: 0.5rem;
+            border-top: 1px solid var(--border);
+            background: rgba(10, 14, 23, 0.5);
+        }
+
+        .chat-input {
+            flex: 1;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 0.6rem 1rem;
+            color: var(--text-primary);
+            font-size: 0.88rem;
+            outline: none;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .chat-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .chat-input:focus {
+            border-color: var(--accent);
+        }
+
+        .chat-send {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            border: none;
+            background: linear-gradient(135deg, var(--accent), #818cf8);
+            color: #0a0e17;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .chat-send:hover {
+            transform: scale(1.05);
+        }
+
+        .chat-typing {
+            display: flex;
+            gap: 4px;
+            padding: 0.7rem 1rem;
+            align-self: flex-start;
+        }
+
+        .chat-typing span {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--text-muted);
+            animation: typingDot 1.4s ease-in-out infinite;
+        }
+
+        .chat-typing span:nth-child(2) { animation-delay: 0.2s; }
+        .chat-typing span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typingDot {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-6px); opacity: 1; }
+        }
+
+        @media (max-width: 480px) {
+            .chat-window {
+                width: calc(100vw - 1.5rem);
+                right: 0.75rem;
+                bottom: 5rem;
+                max-height: 420px;
+            }
+
+            .chat-toggle {
+                width: 52px;
+                height: 52px;
+                bottom: 1rem;
+                right: 1rem;
+            }
+        }
+
         /* ── Responsive ── */
         @media (max-width: 768px) {
             nav {
@@ -751,6 +1006,33 @@
     <p>&copy; 2026 Zelim Adamov. Все права защищены.</p>
 </footer>
 
+<!-- Chatbot -->
+<button class="chat-toggle" id="chatToggle" aria-label="Открыть чат">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+</button>
+
+<div class="chat-window" id="chatWindow">
+    <div class="chat-header">
+        <div class="chat-header-dot"></div>
+        <div>
+            <div class="chat-header-text">ZA Bot</div>
+            <div class="chat-header-sub">Обычно отвечает мгновенно</div>
+        </div>
+    </div>
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-suggestions" id="chatSuggestions"></div>
+    <div class="chat-input-row">
+        <input class="chat-input" id="chatInput" type="text" placeholder="Напишите сообщение..." autocomplete="off">
+        <button class="chat-send" id="chatSend" aria-label="Отправить">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+        </button>
+    </div>
+</div>
+
 <script>
 (function() {
     /* ── Particles ── */
@@ -838,6 +1120,144 @@
     }, { threshold: 0.15 });
 
     document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .scale-in').forEach(el => observer.observe(el));
+
+    /* ── Chatbot ── */
+    const chatToggle = document.getElementById('chatToggle');
+    const chatWindow = document.getElementById('chatWindow');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const chatSend = document.getElementById('chatSend');
+    const chatSuggestions = document.getElementById('chatSuggestions');
+    let chatOpened = false;
+
+    const suggestions = [
+        'Кто ты?',
+        'Навыки',
+        'Контакты',
+        'Опыт работы',
+        'Проекты'
+    ];
+
+    const knowledgeBase = [
+        {
+            keys: ['привет', 'здравствуй', 'хай', 'hello', 'hi', 'хей', 'йо', 'добрый'],
+            reply: 'Привет! Я — виртуальный помощник Zelim\'а. Спрашивайте что угодно о нём, его навыках или проектах!'
+        },
+        {
+            keys: ['кто ты', 'кто вы', 'кто это', 'расскажи о себе', 'кто такой', 'кто он'],
+            reply: 'Zelim Adamov — fullstack-разработчик. Создаёт веб-приложения от идеи до продакшена: и фронтенд, и бэкенд. Ценит чистый код, продуманную архитектуру и красивый UI.'
+        },
+        {
+            keys: ['навык', 'стек', 'технолог', 'язык программ', 'чем владе', 'что умеешь', 'что умеет', 'skill', 'stack'],
+            reply: 'Основной стек: JavaScript, TypeScript, React, Node.js, Python, PostgreSQL, Docker, Git. Zelim постоянно изучает новые технологии и инструменты.'
+        },
+        {
+            keys: ['контакт', 'связ', 'написать', 'почта', 'email', 'mail', 'github', 'гитхаб'],
+            reply: 'Связаться с Zelim\'ом можно по:\n\n📧 Email: vibecodevibecoder@gmail.com\n💻 GitHub: github.com/vibecodeer\n\nИли нажмите кнопку «Связаться» в шапке сайта!'
+        },
+        {
+            keys: ['опыт', 'сколько лет', 'стаж', 'работа', 'experience'],
+            reply: 'У Zelim\'а 3+ года опыта в веб-разработке. За это время реализовано 20+ проектов — от лендингов до полноценных веб-приложений с бэкендом и базами данных.'
+        },
+        {
+            keys: ['проект', 'портфолио', 'работы', 'примеры', 'project'],
+            reply: 'Проекты Zelim\'а можно найти на GitHub: github.com/vibecodeer. Там есть примеры fullstack-приложений, утилит и экспериментов с новыми технологиями.'
+        },
+        {
+            keys: ['фронтенд', 'frontend', 'react', 'реакт'],
+            reply: 'На фронтенде Zelim работает с React, TypeScript и современным CSS. Создаёт отзывчивые, быстрые интерфейсы с продуманным UX.'
+        },
+        {
+            keys: ['бэкенд', 'backend', 'node', 'сервер', 'api'],
+            reply: 'На бэкенде — Node.js, Express/Fastify, Python. Работает с REST API, базами данных (PostgreSQL, MongoDB), Docker-контейнерами.'
+        },
+        {
+            keys: ['цена', 'стоимость', 'сколько стоит', 'прайс', 'бюджет', 'заказ'],
+            reply: 'Стоимость зависит от сложности проекта. Напишите на vibecodevibecoder@gmail.com с описанием задачи — Zelim ответит с оценкой сроков и стоимости.'
+        },
+        {
+            keys: ['бот', 'ии', 'искусств', 'ai', 'нейросет'],
+            reply: 'Я — простой чат-бот, встроенный в этот сайт. Отвечаю на базовые вопросы о Zelim\'е. Для сложных вопросов лучше написать лично!'
+        },
+        {
+            keys: ['спасибо', 'благодар', 'thanks'],
+            reply: 'Пожалуйста! Если есть ещё вопросы — спрашивайте. Буду рад помочь!'
+        }
+    ];
+
+    function findReply(text) {
+        const lower = text.toLowerCase().trim();
+        for (const item of knowledgeBase) {
+            if (item.keys.some(k => lower.includes(k))) return item.reply;
+        }
+        return 'Хм, не совсем понял вопрос. Попробуйте спросить про навыки, опыт, контакты или проекты Zelim\'а. Или напишите ему напрямую: vibecodevibecoder@gmail.com';
+    }
+
+    function addMessage(text, type) {
+        const div = document.createElement('div');
+        div.className = 'chat-msg ' + type;
+        div.textContent = text;
+        chatMessages.appendChild(div);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function showTyping() {
+        const div = document.createElement('div');
+        div.className = 'chat-typing';
+        div.id = 'typingIndicator';
+        div.innerHTML = '<span></span><span></span><span></span>';
+        chatMessages.appendChild(div);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function removeTyping() {
+        const el = document.getElementById('typingIndicator');
+        if (el) el.remove();
+    }
+
+    function renderSuggestions() {
+        chatSuggestions.innerHTML = '';
+        suggestions.forEach(s => {
+            const btn = document.createElement('button');
+            btn.className = 'chat-suggestion';
+            btn.textContent = s;
+            btn.addEventListener('click', () => handleUserMessage(s));
+            chatSuggestions.appendChild(btn);
+        });
+    }
+
+    function handleUserMessage(text) {
+        if (!text.trim()) return;
+        addMessage(text, 'user');
+        chatInput.value = '';
+        chatSuggestions.innerHTML = '';
+
+        showTyping();
+        const delay = 400 + Math.random() * 600;
+        setTimeout(() => {
+            removeTyping();
+            addMessage(findReply(text), 'bot');
+            renderSuggestions();
+        }, delay);
+    }
+
+    chatToggle.addEventListener('click', () => {
+        chatToggle.classList.toggle('open');
+        chatWindow.classList.toggle('open');
+        if (!chatOpened) {
+            chatOpened = true;
+            addMessage('Привет! Я — бот-помощник Zelim\'а. Задайте вопрос или выберите тему ниже.', 'bot');
+            renderSuggestions();
+        }
+        if (chatWindow.classList.contains('open')) {
+            setTimeout(() => chatInput.focus(), 350);
+        }
+    });
+
+    chatSend.addEventListener('click', () => handleUserMessage(chatInput.value));
+    chatInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') handleUserMessage(chatInput.value);
+    });
 })();
 </script>
 
